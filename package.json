@@ -1,6 +1,6 @@
 {
   "name": "air-commons",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Common code for AirTr",
   "main": "index.js",
   "scripts": {
@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/emanuelef/air-commons/issues"
   },
-  "homepage": "https://github.com/emanuelef/air-commons#readme"
+  "homepage": "https://github.com/emanuelef/air-commons#readme",
+  "dependencies": {
+    "geolib": "^2.0.24"
+  }
 }
