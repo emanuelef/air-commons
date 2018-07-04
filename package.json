@@ -1,6 +1,6 @@
 {
   "name": "air-commons",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Common code for AirTr",
   "main": "index.js",
   "scripts": {
