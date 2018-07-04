@@ -5,5 +5,3 @@ exports.printMsg = () => {
 };
 
 exports.utils = utils;
-
-console.log(utils.feetToMetres(34));
