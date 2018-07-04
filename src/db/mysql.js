@@ -166,9 +166,7 @@ const startQueryingAllFilteredPromise = async (from, to, lat, lon, maxDistMeters
   return All.findAll({
     attributes: {
       exclude: [
-        'wakeTurbulence',
         'euclidean',
-        'flying',
         'aircraftType',
         'wCompass',
         'wDeg',
