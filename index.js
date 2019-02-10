@@ -8,6 +8,7 @@ exports.printMsg = () => {
   console.log('Test message');
 };
 
+
 exports.utils = utils;
 exports.Flight = Flight;
 exports.Position = Position;
