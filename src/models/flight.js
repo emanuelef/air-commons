@@ -104,6 +104,8 @@ module.exports = class Flight {
       summary.speedAtCreation = this.speedAtCreation;
       summary.verticalSpeedAtCreation = this.verticalSpeedAtCreation;
 
+      summary.wakeTurbulence = this.wakeTurbulence;
+    
       summary.from = this.from;
       summary.to = this.to;
 
