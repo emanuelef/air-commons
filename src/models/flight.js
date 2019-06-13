@@ -126,4 +126,15 @@ module.exports = class Flight {
     return summary;
   }
 
+  getSubsampledPositions() {
+    let allPoints = [];
+    this.timedPositions.forEach((timedPos, index, arr) => {
+      if (index > 0) {
+        let subs = Flight.generateLinearSubsamples(arr[index - 1], arr[index]);
+        allPoints = [...allPoints, ...subs];
+      }
+    });
+    return allPoints;
+  }
+
 }
