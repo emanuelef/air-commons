@@ -31,7 +31,7 @@ module.exports = class Flight {
       : null;
   }
 
-  static generateLinearSubsamples(timedPositionA, timedPositionB, subSamples = 10) {
+  static generateLinearSubsamples(timedPositionA, timedPositionB, subSamples = 20) {
     let subsamplesTimedPositions = [];
 
     let slopeLat = (timedPositionB.lat - timedPositionA.lat) / subSamples;
