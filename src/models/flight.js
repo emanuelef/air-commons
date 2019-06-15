@@ -1,5 +1,7 @@
-const TimedPosition = require('./timedPosition');
-const roundDec = require('../utils/utils').roundDec;
+const TimedPosition = require("./timedPosition");
+const roundDec = require("../utils/utils").roundDec;
+
+const MIN_DISTANCE = 10; // min distance to avoid storing same position
 
 module.exports = class Flight {
   constructor(obj) {
@@ -16,13 +18,16 @@ module.exports = class Flight {
   }
 
   addTimedPosition(timedPosition) {
+    lastPosition = this.getLastTimedPosition();
+    if (lastPosition && timedPosition.distance3DFrom(position) < MIN_DISTANCE) {
+      // could be API returned same position on different call (not updated)
+      return;
+    }
     this.timedPositions.push(timedPosition);
   }
 
   getFirstTimedPosition() {
-    return this.timedPositions.length
-      ? this.timedPositions[0]
-      : null;
+    return this.timedPositions.length ? this.timedPositions[0] : null;
   }
 
   getLastTimedPosition() {
@@ -31,23 +36,29 @@ module.exports = class Flight {
       : null;
   }
 
-  static generateLinearSubsamples(timedPositionA, timedPositionB, subSamples = 20) {
+  static generateLinearSubsamples(
+    timedPositionA,
+    timedPositionB,
+    subSamples = 20
+  ) {
     let subsamplesTimedPositions = [];
 
     let slopeLat = (timedPositionB.lat - timedPositionA.lat) / subSamples;
     let slopeLon = (timedPositionB.lon - timedPositionA.lon) / subSamples;
     let slopeAlt = (timedPositionB.alt - timedPositionA.alt) / subSamples;
-    let slopeTimestamp = (timedPositionB.timestamp - timedPositionA.timestamp) / subSamples;
+    let slopeTimestamp =
+      (timedPositionB.timestamp - timedPositionA.timestamp) / subSamples;
 
-    for (let i in[...Array(subSamples).keys()]) {
-
+    for (let i in [...Array(subSamples).keys()]) {
       let currVal = Number(i);
 
       let tpos = new TimedPosition({
         lat: roundDec(timedPositionA.lat + slopeLat * currVal, 7),
         lon: roundDec(timedPositionA.lon + slopeLon * currVal, 7),
         alt: Math.round(timedPositionA.alt + slopeAlt * currVal),
-        timestamp: Math.round(timedPositionA.timestamp + slopeTimestamp * currVal)
+        timestamp: Math.round(
+          timedPositionA.timestamp + slopeTimestamp * currVal
+        )
       });
 
       subsamplesTimedPositions.push(tpos);
@@ -86,7 +97,7 @@ module.exports = class Flight {
       minDistance = 0;
     }
 
-    return {minDistance, minDTimestamp, minDAltitude, minDLat, minDLon};
+    return { minDistance, minDTimestamp, minDAltitude, minDLat, minDLon };
   }
 
   getSummary(position) {
@@ -105,7 +116,7 @@ module.exports = class Flight {
       summary.verticalSpeedAtCreation = this.verticalSpeedAtCreation;
 
       summary.wakeTurbulence = this.wakeTurbulence;
-    
+
       summary.from = this.from;
       summary.to = this.to;
 
@@ -113,7 +124,8 @@ module.exports = class Flight {
         ...summary,
         ...this.getMinimumDistanceToPosition(position)
       };
-      summary.timeMinDistanceFromStart = summary.minDTimestamp - summary.startTime;
+      summary.timeMinDistanceFromStart =
+        summary.minDTimestamp - summary.startTime;
 
       const lastEl = this.timedPositions[this.timedPositions.length - 1];
       summary.endTimeFromStart = lastEl.timestamp - summary.startTime;
@@ -136,5 +148,4 @@ module.exports = class Flight {
     });
     return allPoints;
   }
-
-}
+};
