@@ -72,6 +72,7 @@ module.exports = class Flight {
 
   getMinimumDistanceToPosition(position) {
     let minDistance = Infinity;
+    let minDistanceAccurate = Infinity;
     let minDTimestamp = 0;
     let minDAltitude = 0;
     let minDLat = 0;
@@ -80,11 +81,12 @@ module.exports = class Flight {
     this.timedPositions.forEach((timedPos, index, arr) => {
       if (index > 0) {
         let subs = Flight.generateLinearSubsamples(arr[index - 1], arr[index]);
-
+        distanceAccurate = position.minDistanceToLine3D(arr[index - 1], arr[index]);
         for (let subsample of subs) {
           let distance = subsample.distance3DFrom(position);
           if (distance < minDistance) {
             minDistance = distance;
+            minDistanceAccurate = distanceAccurate;
             minDTimestamp = subsample.timestamp;
             minDAltitude = subsample.alt;
             minDLat = subsample.lat;
@@ -96,9 +98,10 @@ module.exports = class Flight {
 
     if (minDistance == Infinity) {
       minDistance = 0;
+      minDistanceAccurate = 0;
     }
 
-    return { minDistance, minDTimestamp, minDAltitude, minDLat, minDLon };
+    return { minDistance, minDistanceAccurate, minDTimestamp, minDAltitude, minDLat, minDLon };
   }
 
   getSummary(position) {
