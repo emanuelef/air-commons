@@ -18,8 +18,8 @@ module.exports = class Flight {
   }
 
   addTimedPosition(timedPosition) {
-    lastPosition = this.getLastTimedPosition();
-    if (lastPosition && timedPosition.distance3DFrom(position) < MIN_DISTANCE) {
+    let lastPosition = this.getLastTimedPosition();
+    if (lastPosition && timedPosition.distance3DFrom(lastPosition) < MIN_DISTANCE) {
       // could be API returned same position on different call (not updated)
       return;
     }
