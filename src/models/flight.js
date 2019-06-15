@@ -81,7 +81,7 @@ module.exports = class Flight {
     this.timedPositions.forEach((timedPos, index, arr) => {
       if (index > 0) {
         let subs = Flight.generateLinearSubsamples(arr[index - 1], arr[index]);
-        distanceAccurate = position.minDistanceToLine3D(arr[index - 1], arr[index]);
+        let distanceAccurate = position.minDistanceToLine3D(arr[index - 1], arr[index]);
         for (let subsample of subs) {
           let distance = subsample.distance3DFrom(position);
           if (distance < minDistance) {
