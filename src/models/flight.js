@@ -145,7 +145,7 @@ module.exports = class Flight {
       if (index > 0) {
         // evenly distribute point based on distance
         let distance = arr[index - 1].distance3DFrom(arr[index]);
-        let numPoints =  Math.floor(distance / INTERPOLATION_DISTANCE);
+        let numPoints =  Math.ceil(distance / INTERPOLATION_DISTANCE);
         let subs = Flight.generateLinearSubsamples(arr[index - 1], arr[index], numPoints);
         allPoints = [...allPoints, ...subs];
       }
