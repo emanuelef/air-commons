@@ -1,13 +1,12 @@
-const utils = require('./src/utils/utils');
-const Flight = require('./src/models/flight');
-const Position = require('./src/models/position');
-const TimedPosition = require('./src/models/timedPosition');
-const mysql = require('./src/db/mysql');
+const utils = require("./src/utils/utils");
+const Flight = require("./src/models/flight");
+const Position = require("./src/models/position");
+const TimedPosition = require("./src/models/timedPosition");
+const mysql = require("./src/db/mysql");
 
 exports.printMsg = () => {
-  console.log('Test message');
+  console.log("Test message");
 };
-
 
 exports.utils = utils;
 exports.Flight = Flight;

@@ -20,7 +20,10 @@ module.exports = class Flight {
 
   addTimedPosition(timedPosition) {
     let lastPosition = this.getLastTimedPosition();
-    if (lastPosition && timedPosition.distance3DFrom(lastPosition) < MIN_DISTANCE) {
+    if (
+      lastPosition &&
+      timedPosition.distance3DFrom(lastPosition) < MIN_DISTANCE
+    ) {
       // could be API returned same position on different call (not updated)
       return;
     }
@@ -81,7 +84,10 @@ module.exports = class Flight {
     this.timedPositions.forEach((timedPos, index, arr) => {
       if (index > 0) {
         let subs = Flight.generateLinearSubsamples(arr[index - 1], arr[index]);
-        let distanceAccurate = position.minDistanceToLine3D(arr[index - 1], arr[index]);
+        let distanceAccurate = position.minDistanceToLine3D(
+          arr[index - 1],
+          arr[index]
+        );
         for (let subsample of subs) {
           let distance = subsample.distance3DFrom(position);
           if (distance < minDistance) {
@@ -101,7 +107,14 @@ module.exports = class Flight {
       minDistanceAccurate = 0;
     }
 
-    return { minDistance, minDistanceAccurate, minDTimestamp, minDAltitude, minDLat, minDLon };
+    return {
+      minDistance,
+      minDistanceAccurate,
+      minDTimestamp,
+      minDAltitude,
+      minDLat,
+      minDLon
+    };
   }
 
   getSummary(position) {
@@ -148,8 +161,17 @@ module.exports = class Flight {
       if (index > 0) {
         // evenly distribute point based on distance
         let distance = arr[index - 1].distance3DFrom(arr[index]);
-        let numPoints =  Math.ceil(distance / INTERPOLATION_DISTANCE);
-        let subs = Flight.generateLinearSubsamples(arr[index - 1], arr[index], numPoints);
+        let numPoints = Math.ceil(distance / INTERPOLATION_DISTANCE);
+        let subs = Flight.generateLinearSubsamples(
+          arr[index - 1],
+          arr[index],
+          numPoints
+        );
+
+        if (subs.length > 0 && index !== arr.length - 1) {
+          subs.pop(); // remove last element that will be the first in next iteration
+        }
+
         allPoints = [...allPoints, ...subs];
       }
     });

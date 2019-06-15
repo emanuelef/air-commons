@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize');
+const Sequelize = require("sequelize");
 
 const HOST = process.env.MYSQL_DB_ENDPOINT;
 const DB_NAME = process.env.MYSQL_DB_NAME;
@@ -7,7 +7,7 @@ const DB_PASSWORD = process.env.MYSQL_DB_PASSWORD;
 
 const sequelize = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
   host: HOST,
-  dialect: 'mysql',
+  dialect: "mysql",
   operatorsAliases: false,
   logging: false,
   pool: {
@@ -23,80 +23,91 @@ const sequelize = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
 
 const Op = Sequelize.Op;
 
-const All = sequelize.define(process.env.MYSQL_DB_TABLE_ALL, {
-  icao: Sequelize.STRING,
-  op: Sequelize.STRING,
-  model: Sequelize.STRING,
-  wakeTurbulence: Sequelize.STRING,
-  distance: Sequelize.INTEGER,
-  time: Sequelize.INTEGER,
-  latitude: Sequelize.DOUBLE,
-  longitude: Sequelize.DOUBLE,
-  from: Sequelize.STRING,
-  to: Sequelize.STRING,
-  altM: Sequelize.SMALLINT,
-  galtM: Sequelize.SMALLINT,
-  euclidean: Sequelize.INTEGER,
-  flying: Sequelize.BOOLEAN,
-  speed: Sequelize.SMALLINT,
-  trackAngle: Sequelize.FLOAT,
-  verticalSpeed: Sequelize.SMALLINT,
-  aircraftType: Sequelize.STRING,
-  wCompass: Sequelize.TEXT('tiny'),
-  wDeg: Sequelize.SMALLINT,
-  wSpeed: Sequelize.FLOAT
-}, {
-  indexes: [
-    {
-      unique: false,
-      fields: ['time']
-    }
-  ]
-});
+const All = sequelize.define(
+  process.env.MYSQL_DB_TABLE_ALL,
+  {
+    icao: Sequelize.STRING,
+    op: Sequelize.STRING,
+    model: Sequelize.STRING,
+    wakeTurbulence: Sequelize.STRING,
+    distance: Sequelize.INTEGER,
+    time: Sequelize.INTEGER,
+    latitude: Sequelize.DOUBLE,
+    longitude: Sequelize.DOUBLE,
+    from: Sequelize.STRING,
+    to: Sequelize.STRING,
+    altM: Sequelize.SMALLINT,
+    galtM: Sequelize.SMALLINT,
+    euclidean: Sequelize.INTEGER,
+    flying: Sequelize.BOOLEAN,
+    speed: Sequelize.SMALLINT,
+    trackAngle: Sequelize.FLOAT,
+    verticalSpeed: Sequelize.SMALLINT,
+    aircraftType: Sequelize.STRING,
+    wCompass: Sequelize.TEXT("tiny"),
+    wDeg: Sequelize.SMALLINT,
+    wSpeed: Sequelize.FLOAT
+  },
+  {
+    indexes: [
+      {
+        unique: false,
+        fields: ["time"]
+      }
+    ]
+  }
+);
 
-const Flights = sequelize.define(process.env.MYSQL_DB_TABLE_PASSAGES, {
-  icao: Sequelize.STRING,
-  op: Sequelize.STRING,
-  samples: Sequelize.INTEGER,
-  startTime: Sequelize.INTEGER,
-  startLat: Sequelize.DOUBLE,
-  startLon: Sequelize.DOUBLE,
-  startAltitude: Sequelize.SMALLINT,
-  flyingAtCreation: Sequelize.BOOLEAN,
-  speedAtCreation: Sequelize.SMALLINT,
-  verticalSpeedAtCreation: Sequelize.SMALLINT,
-  from: Sequelize.STRING,
-  to: Sequelize.STRING,
-  minDistance: Sequelize.SMALLINT,
-  minDTimestamp: Sequelize.INTEGER,
-  minDAltitude: Sequelize.SMALLINT,
-  minDLat: Sequelize.DOUBLE,
-  minDLon: Sequelize.DOUBLE,
-  timeMinDistanceFromStart: Sequelize.INTEGER,
-  endTimeFromStart: Sequelize.INTEGER,
-  endLat: Sequelize.DOUBLE,
-  endLon: Sequelize.DOUBLE,
-  endAltitude: Sequelize.SMALLINT,
-  diffAltitude: Sequelize.SMALLINT,
-  wDeg: Sequelize.SMALLINT,
-  wSpeed: Sequelize.FLOAT
-}, {
-  indexes: [
-    {
-      unique: false,
-      fields: ['startTime']
-    }
-  ]
-});
+const Flights = sequelize.define(
+  process.env.MYSQL_DB_TABLE_PASSAGES,
+  {
+    icao: Sequelize.STRING,
+    op: Sequelize.STRING,
+    samples: Sequelize.INTEGER,
+    startTime: Sequelize.INTEGER,
+    startLat: Sequelize.DOUBLE,
+    startLon: Sequelize.DOUBLE,
+    startAltitude: Sequelize.SMALLINT,
+    flyingAtCreation: Sequelize.BOOLEAN,
+    speedAtCreation: Sequelize.SMALLINT,
+    verticalSpeedAtCreation: Sequelize.SMALLINT,
+    from: Sequelize.STRING,
+    to: Sequelize.STRING,
+    minDistance: Sequelize.SMALLINT,
+    minDTimestamp: Sequelize.INTEGER,
+    minDAltitude: Sequelize.SMALLINT,
+    minDLat: Sequelize.DOUBLE,
+    minDLon: Sequelize.DOUBLE,
+    timeMinDistanceFromStart: Sequelize.INTEGER,
+    endTimeFromStart: Sequelize.INTEGER,
+    endLat: Sequelize.DOUBLE,
+    endLon: Sequelize.DOUBLE,
+    endAltitude: Sequelize.SMALLINT,
+    diffAltitude: Sequelize.SMALLINT,
+    wDeg: Sequelize.SMALLINT,
+    wSpeed: Sequelize.FLOAT
+  },
+  {
+    indexes: [
+      {
+        unique: false,
+        fields: ["startTime"]
+      }
+    ]
+  }
+);
 
-sequelize.authenticate().then(() => {
-  console.log('Connection has been established successfully.');
-  // TODO Wait for initialization completed
-  All.sync();
-  Flights.sync();
-}).catch(err => {
-  console.error('Unable to connect to the database:', err);
-});
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log("Connection has been established successfully.");
+    // TODO Wait for initialization completed
+    All.sync();
+    Flights.sync();
+  })
+  .catch(err => {
+    console.error("Unable to connect to the database:", err);
+  });
 
 const writeToDb = (item, wind) => {
   let modItem = {
@@ -107,7 +118,7 @@ const writeToDb = (item, wind) => {
   return All.create(modItem);
 };
 
-const writeToDbPassages = (item) => {
+const writeToDbPassages = item => {
   let modItem = {
     ...item
   };
@@ -120,13 +131,13 @@ const startQueryingPromise = async (from, to) => {
   return All.findAll({
     attributes: {
       exclude: [
-        'wakeTurbulence',
-        'euclidean',
-        'flying',
-        'aircraftType',
-        'wCompass',
-        'wDeg',
-        'wSpeed'
+        "wakeTurbulence",
+        "euclidean",
+        "flying",
+        "aircraftType",
+        "wCompass",
+        "wDeg",
+        "wSpeed"
       ]
     },
     where: {
@@ -140,7 +151,7 @@ const startQueryingPromise = async (from, to) => {
 const startQueryingFlightsPromise = async (from, to) => {
   return Flights.findAll({
     attributes: {
-      exclude: ['flyingAtCreation']
+      exclude: ["flyingAtCreation"]
     },
     where: {
       startTime: {
@@ -150,13 +161,21 @@ const startQueryingFlightsPromise = async (from, to) => {
   });
 };
 
-const startQueryingAllFilteredPromise = async (from, to, lat, lon, maxDistMeters) => {
+const startQueryingAllFilteredPromise = async (
+  from,
+  to,
+  lat,
+  lon,
+  maxDistMeters
+) => {
   const r_earth = 6371000.0;
 
   const latDelta = (maxDistMeters / r_earth) * (180 / Math.PI);
   const fromLat = lat - latDelta;
   const toLat = lat + latDelta;
-  const lonDelta = (maxDistMeters / r_earth) * (180 / Math.PI) / Math.cos(lat * Math.PI / 180);
+  const lonDelta =
+    ((maxDistMeters / r_earth) * (180 / Math.PI)) /
+    Math.cos((lat * Math.PI) / 180);
   const fromLon = lon - lonDelta;
   const toLon = lon + lonDelta;
 
@@ -165,13 +184,7 @@ const startQueryingAllFilteredPromise = async (from, to, lat, lon, maxDistMeters
 
   return All.findAll({
     attributes: {
-      exclude: [
-        'euclidean',
-        'aircraftType',
-        'wCompass',
-        'wDeg',
-        'wSpeed'
-      ]
+      exclude: ["euclidean", "aircraftType", "wCompass", "wDeg", "wSpeed"]
     },
     where: {
       time: {
@@ -184,9 +197,7 @@ const startQueryingAllFilteredPromise = async (from, to, lat, lon, maxDistMeters
         [Op.between]: [fromLon, toLon]
       }
     },
-    order: [
-      ['time', 'ASC']
-    ]
+    order: [["time", "ASC"]]
   });
 };
 

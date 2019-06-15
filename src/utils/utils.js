@@ -1,4 +1,4 @@
-const geolib = require('geolib');
+const geolib = require("geolib");
 
 const FEET_TO_METRES_FACTOR = 0.3048;
 
@@ -9,19 +9,36 @@ exports.distFrom = (a, b) => geolib.getDistance(a, b);
 
 exports.roundDec = (num, prec) => Math.round(num * 10 ** prec) / 10 ** prec;
 
-exports.degToCompass = (num) => {
-    var val = Math.floor((num / 22.5) + 0.5);
-    var arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
-    return arr[(val % 16)];
+exports.degToCompass = num => {
+  var val = Math.floor(num / 22.5 + 0.5);
+  var arr = [
+    "N",
+    "NNE",
+    "NE",
+    "ENE",
+    "E",
+    "ESE",
+    "SE",
+    "SSE",
+    "S",
+    "SSW",
+    "SW",
+    "WSW",
+    "W",
+    "WNW",
+    "NW",
+    "NNW"
+  ];
+  return arr[val % 16];
 };
 
-exports.secsFromMidnight = (epochms) => {
-    const newDate = new Date(epochms);
+exports.secsFromMidnight = epochms => {
+  const newDate = new Date(epochms);
 
-    const hours = newDate.getUTCHours() * (60 * 60);
-    const minutes = newDate.getUTCMinutes() * 60;
-    const seconds = newDate.getUTCSeconds();
-    const secsSinceMidnight = hours + minutes + seconds;
+  const hours = newDate.getUTCHours() * (60 * 60);
+  const minutes = newDate.getUTCMinutes() * 60;
+  const seconds = newDate.getUTCSeconds();
+  const secsSinceMidnight = hours + minutes + seconds;
 
-    return secsSinceMidnight;
+  return secsSinceMidnight;
 };
