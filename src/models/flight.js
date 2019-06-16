@@ -155,13 +155,13 @@ module.exports = class Flight {
     return summary;
   }
 
-  getSubsampledPositions() {
+  getSubsampledPositions(distanceBetweenSamples = INTERPOLATION_DISTANCE) {
     let allPoints = [];
-    this.timedPositions.forEach((timedPos, index, arr) => {
+    this.timedPositions.forEach((_, index, arr) => {
       if (index > 0) {
         // evenly distribute point based on distance
         let distance = arr[index - 1].distance3DFrom(arr[index]);
-        let numPoints = Math.ceil(distance / INTERPOLATION_DISTANCE);
+        let numPoints = Math.ceil(distance / distanceBetweenSamples);
         let subs = Flight.generateLinearSubsamples(
           arr[index - 1],
           arr[index],
