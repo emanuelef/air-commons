@@ -17,10 +17,10 @@
   },
   "homepage": "https://github.com/emanuelef/air-commons#readme",
   "dependencies": {
-    "aws-sdk": "^2.268.1",
-    "geolib": "^2.0.24",
-    "json2csv": "^4.3.3",
-    "mysql2": "^1.5.3",
-    "sequelize": "^4.42.0"
+    "aws-sdk": "^2.480.0",
+    "geolib": "^3.0.3",
+    "json2csv": "^4.5.1",
+    "mysql2": "^1.6.5",
+    "sequelize": "^5.8.12"
   }
 }

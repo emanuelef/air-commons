@@ -5,7 +5,7 @@ const FEET_TO_METRES_FACTOR = 0.3048;
 exports.feetToMetres = feet => Math.round(feet * FEET_TO_METRES_FACTOR);
 exports.metresToFeet = metres => Math.round(metres / FEET_TO_METRES_FACTOR);
 exports.euclideanDistance = (a, b) => Math.round(Math.sqrt(a ** 2 + b ** 2));
-exports.distFrom = (a, b) => geolib.getDistance(a, b);
+exports.distFrom = (a, b) => geolib.getPreciseDistance(a, b);
 
 exports.roundDec = (num, prec) => Math.round(num * 10 ** prec) / 10 ** prec;
 
@@ -30,6 +30,13 @@ exports.degToCompass = num => {
     "NNW"
   ];
   return arr[val % 16];
+};
+
+exports.getBoundsOfDistance = (lat, lon, distanceMetres) => {
+  return geolib.getBoundsOfDistance(
+    { latitude: lat, lon: -lon },
+    distanceMetres
+  );
 };
 
 exports.secsFromMidnight = epochms => {
