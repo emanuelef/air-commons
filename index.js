@@ -13,5 +13,5 @@ exports.utils = utils;
 exports.Flight = Flight;
 exports.Position = Position;
 exports.TimedPosition = TimedPosition;
-exports.mysql = mysql;
+//exports.mysql = mysql;
 exports.mongo = mongo;
