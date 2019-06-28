@@ -36,15 +36,10 @@ const indexCollection = function(db, callback) {
 };
 
 const writeToDbPassages = item => {
-  let modItem = {
-    ...item
-  };
-  modItem.startTime = modItem.startTime / 1000;
-  modItem.minDTimestamp = modItem.minDTimestamp / 1000;
-  return Flights.create(modItem);
+
 };
 
-exports.writeToDbPassagesMySql = writeToDbPassages;
+exports.writeToDbPassagesMongo = writeToDbPassages;
 
 /*
 db.Collection.find({
