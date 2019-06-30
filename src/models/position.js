@@ -27,6 +27,7 @@ module.exports = class Position {
     return euclideanDistance(distance2D, posA.alt - posB.alt);
   }
 
+  // http://mathworld.wolfram.com/Point-LineDistance3-Dimensional.html
   static minDistancePointToLine3D(startPosition, endPosition, posA) {
     const AB = startPosition.distance3DFrom(endPosition);
     const BC = endPosition.distance3DFrom(posA);

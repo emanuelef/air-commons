@@ -4,40 +4,29 @@ const DB_USERNAME = process.env.MONGO_DB_USERNAME;
 const DB_PASSWORD = process.env.MONGO_DB_PASSWORD;
 
 const MongoClient = require("mongodb").MongoClient;
-const client = new MongoClient(HOST);
 
 let db;
+let col;
 
 module.exports = {
-  connect() {
-    return new Promise((resolve, reject) => {
-      client.connect(err => {
-        if (err) return reject(err);
-        console.log("Connected successfully to server");
-        db = client.db(DB_NAME);
-        resolve(db);
-      });
-    });
+  async connect(collection) {
+    const client = await MongoClient.connect(HOST, { useNewUrlParser: true });
+    console.log("Connected correctly to server");
+    db = client.db(DB_NAME);
+    col = db.collection(collection);
+    return col;
   },
   getDb() {
     return db;
+  },
+  getCollection() {
+    return col;
+  },
+  async writeToDb(data) {
+    return await col.insertOne(data);
   }
 };
 
-/*
-(async function() {
-  try {
-    await client.connect();
-    console.log("Connected correctly to server");
-    const db = client.db(DB_NAME);
-    const col = db.collection("flights");
-
-  } catch (err) {
-    console.log(err.stack);
-  }
-  client.close();
-})();
-*/
 
 /*
     const cursor = col.find({ a: 1 }).limit(2);
@@ -57,16 +46,6 @@ const indexCollection = function(db, callback) {
   });
 };
 
-const writeToDbPassages = item => {
-  //let r = await col.insertOne({ a: 1 });
-  let modItem = {
-    ...item
-  };
-  modItem.startTime = modItem.startTime / 1000;
-  modItem.minDTimestamp = modItem.minDTimestamp / 1000;
-};
-
-//exports.writeToDbPassagesMongo = writeToDbPassages;
 
 /*
 db.Collection.find({
