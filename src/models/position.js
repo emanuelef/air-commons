@@ -12,6 +12,14 @@ module.exports = class Position {
     this.alt = obj.alt; // Altitude in metres
   }
 
+  distance3DFrom(position) {
+    return Position.distance3D(this, position);
+  }
+
+  minDistanceToLine3D(startPosition, endPosition) {
+    return Position.minDistancePointToLine3D(startPosition, endPosition, this);
+  }
+
   static distance3D(posA, posB) {
     const distance2D = distFrom(
       {
@@ -39,11 +47,36 @@ module.exports = class Position {
     return (2 * Area) / AB;
   }
 
-  distance3DFrom(position) {
-    return Position.distance3D(this, position);
-  }
+  static generateLinearSubsamples(
+    timedPositionA,
+    timedPositionB,
+    subSamples = 20
+  ) {
+    let subsamplesTimedPositions = [];
 
-  minDistanceToLine3D(startPosition, endPosition) {
-    return Position.minDistancePointToLine3D(startPosition, endPosition, this);
+    let slopeLat = (timedPositionB.lat - timedPositionA.lat) / subSamples;
+    let slopeLon = (timedPositionB.lon - timedPositionA.lon) / subSamples;
+    let slopeAlt = (timedPositionB.alt - timedPositionA.alt) / subSamples;
+    let slopeTimestamp =
+      (timedPositionB.timestamp - timedPositionA.timestamp) / subSamples;
+
+    for (let i in [...Array(subSamples).keys()]) {
+      let currVal = Number(i);
+
+      let tpos = new TimedPosition({
+        lat: roundDec(timedPositionA.lat + slopeLat * currVal, 7),
+        lon: roundDec(timedPositionA.lon + slopeLon * currVal, 7),
+        alt: Math.round(timedPositionA.alt + slopeAlt * currVal),
+        timestamp: Math.round(
+          timedPositionA.timestamp + slopeTimestamp * currVal
+        )
+      });
+
+      subsamplesTimedPositions.push(tpos);
+    }
+
+    subsamplesTimedPositions.push(timedPositionB);
+
+    return subsamplesTimedPositions;
   }
 };

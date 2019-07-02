@@ -40,39 +40,6 @@ module.exports = class Flight {
       : null;
   }
 
-  static generateLinearSubsamples(
-    timedPositionA,
-    timedPositionB,
-    subSamples = 20
-  ) {
-    let subsamplesTimedPositions = [];
-
-    let slopeLat = (timedPositionB.lat - timedPositionA.lat) / subSamples;
-    let slopeLon = (timedPositionB.lon - timedPositionA.lon) / subSamples;
-    let slopeAlt = (timedPositionB.alt - timedPositionA.alt) / subSamples;
-    let slopeTimestamp =
-      (timedPositionB.timestamp - timedPositionA.timestamp) / subSamples;
-
-    for (let i in [...Array(subSamples).keys()]) {
-      let currVal = Number(i);
-
-      let tpos = new TimedPosition({
-        lat: roundDec(timedPositionA.lat + slopeLat * currVal, 7),
-        lon: roundDec(timedPositionA.lon + slopeLon * currVal, 7),
-        alt: Math.round(timedPositionA.alt + slopeAlt * currVal),
-        timestamp: Math.round(
-          timedPositionA.timestamp + slopeTimestamp * currVal
-        )
-      });
-
-      subsamplesTimedPositions.push(tpos);
-    }
-
-    subsamplesTimedPositions.push(timedPositionB);
-
-    return subsamplesTimedPositions;
-  }
-
   getMinimumDistanceToPosition(position) {
     let minDistance = Infinity;
     let minDistanceAccurate = Infinity;

@@ -14,6 +14,8 @@ module.exports = {
     console.log("Connected correctly to server");
     db = client.db(DB_NAME);
     col = db.collection(collection);
+    await col.createIndex({ startTime: 1 });
+    console.log("Collection indexed");
     return col;
   },
   getDb() {
@@ -24,28 +26,16 @@ module.exports = {
   },
   async writeToDb(data) {
     return await col.insertOne(data);
+  },
+  async findByDateRange(start, end) {
+    const results = await col.find({ startTime: { $gte: start, $lt: end } });
+    return results.toArray();
   }
 };
 
-
 /*
-    const cursor = col.find({ a: 1 }).limit(2);
-    while (await cursor.hasNext()) {
-      const doc = await cursor.next();
-      console.dir(doc);
-    }
+
     */
-
-const indexCollection = function(db, callback) {
-  db.collection("documents").createIndex({ a: 1 }, null, function(
-    err,
-    results
-  ) {
-    console.log(results);
-    callback();
-  });
-};
-
 
 /*
 db.Collection.find({
