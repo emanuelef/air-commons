@@ -73,10 +73,6 @@ module.exports = class TimedPosition extends Position {
         }
       }
     });
-    if (minDistance == Infinity) {
-      minDistance = 0;
-      minDistanceAccurate = 0;
-    }
 
     return {
       minDistance,
