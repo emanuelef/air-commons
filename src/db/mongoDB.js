@@ -13,7 +13,8 @@ module.exports = {
     const client = await MongoClient.connect(HOST, {
       useNewUrlParser: true,
       reconnectInterval: 10000,
-      reconnectTries: Number.MAX_VALUE
+      reconnectTries: Number.MAX_VALUE,
+      useUnifiedTopology: true
     });
     console.log("Connected correctly to server");
     db = client.db(DB_NAME);
