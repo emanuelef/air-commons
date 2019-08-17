@@ -10,7 +10,11 @@ let col;
 
 module.exports = {
   async connect(collection) {
-    const client = await MongoClient.connect(HOST, { useNewUrlParser: true });
+    const client = await MongoClient.connect(HOST, {
+      useNewUrlParser: true,
+      reconnectInterval: 10000,
+      reconnectTries: Number.MAX_VALUE
+    });
     console.log("Connected correctly to server");
     db = client.db(DB_NAME);
     col = db.collection(collection);
