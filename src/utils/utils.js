@@ -49,3 +49,15 @@ exports.secsFromMidnight = epochms => {
 
   return secsSinceMidnight;
 };
+
+exports.getLastString = el =>
+  el
+    ? el
+        .split(",")
+        .pop()
+        .trim()
+    : "";
+
+exports.cleanOperator = el => (el ? el.replace(",", "").trim() : "");
+
+exports.icaoAirport = el => (el && el.length >= 4 ? el.substring(0, 4) : "");
