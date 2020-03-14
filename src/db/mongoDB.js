@@ -12,8 +12,8 @@ module.exports = {
   async connect(collection) {
     const client = await MongoClient.connect(HOST, {
       useNewUrlParser: true,
-      reconnectInterval: 10000,
-      reconnectTries: Number.MAX_VALUE,
+      // reconnectInterval: 10000,
+      // reconnectTries: Number.MAX_VALUE,
       useUnifiedTopology: true
     });
     console.log("Connected correctly to server");

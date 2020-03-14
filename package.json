@@ -1,6 +1,6 @@
 {
   "name": "air-commons",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Common code for AirTr",
   "main": "index.js",
   "scripts": {
@@ -17,11 +17,11 @@
   },
   "homepage": "https://github.com/emanuelef/air-commons#readme",
   "dependencies": {
-    "aws-sdk": "^2.606.0",
+    "aws-sdk": "^2.639.0",
     "geolib": "^3.2.1",
     "json2csv": "^4.5.4",
-    "mongodb": "^3.5.1",
+    "mongodb": "^3.5.5",
     "mysql2": "^2.1.0",
-    "sequelize": "^5.21.3"
+    "sequelize": "^5.21.5"
   }
 }
