@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/emanuelef/air-commons.git"
+    "url": "github:emanuelef/air-commons"
   },
   "author": "Emanuele Fumagalli",
   "license": "ISC",
