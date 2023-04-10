@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/emanuelef/air-commons#readme",
   "dependencies": {
-    "aws-sdk": "^2.901.0",
+    "aws-sdk": "^2.1354.0",
     "geolib": "^3.3.1",
     "json2csv": "^5.0.6",
     "mongodb": "^3.6.6",
